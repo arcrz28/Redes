@@ -199,4 +199,5 @@ def sigmoid_prime(z):   #Derivada de la función sigmoide
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
 #Devuelve el valor de la derivada
-#hola
+#
+#Ahora utilicemos un optimizador, en nuestro caso utilizaremos SGD momentum
