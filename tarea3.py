@@ -9,6 +9,10 @@ simple, easily readable, and easily modifiable.  It is not optimized,
 and omits many desirable features.
 """
 
+#En este archivo se encuentra la tarea 3 (optimixación y cross-entropy) 
+#al igual que la tarea 2 sobre comentar el código network.py
+#Se agregaron comentarios nuevos para comentar el cross-entropy y el optimizador.
+#
 #### Libraries
 # Standard library  
 import random  #importa datos aleatorios
@@ -16,10 +20,17 @@ import random  #importa datos aleatorios
 # Third-party libraries
 import numpy as np #Es la librería que importa ayuda para trabajar con
 #largos arreglos multi-dimensionales y matrices 
+class CrossEntropyCost(object):
+    def fn(a,y):
+        return np.sum(np.nan_to_num(-y*np.log(a)+(1-y)*np.log(1-a))) #Esta es la la función de cross-entropy vista en clase
+    
+    def delta(z,a,y):
+        return (a-y) #este es el error, que es el output menos el "output" deseado
+        
 
 class Network(object): #Define de que tipo de clase será la neurona
 
-    def __init__(self, sizes): #Define los parámetros del número de neuronas por capas y pesos
+    def __init__(self, sizes, cost=CrossEntropyCost): #Define los parámetros del número de neuronas por capas y pesos
         """The list ``sizes`` contains the number of neurons in the
         respective layers of the network.  For example, if the list
         was [2, 3, 1] then it would be a three-layer network, with the
@@ -44,7 +55,8 @@ class Network(object): #Define de que tipo de clase será la neurona
             a = sigmoid(np.dot(w, a)+b) #Hace un producto punto y le sumamos los bias
         return a
 
-    def SGD(self, training_data, epochs, mini_batch_size, eta,
+    def SGD(self, training_data, epochs, mini_batch_size, eta, 
+            lmbda= 0,0
             test_data=None):
         #El SGD es el statistic Gradient Descent y hace una aproximación al descenso de cada iteración
         #En este caso, obtiene  los w para después hacer el backpropagation, además de que nos evita que se "atore"
@@ -78,9 +90,11 @@ class Network(object): #Define de que tipo de clase será la neurona
                 #.format(j) sustituye a {0} con el valor de la variable j 
                 #Es una secuencia que contiene a {0} que será sustituido
 
-    def update_mini_batch(self, mini_batch, eta): 
+    def update_mini_batch(self, mini_batch, eta, lmbda, n):  ##Agregamos primero lmbda, n
         #Actualiza los valores de los pesos y los biases calculando
         #el gradiente para el mini batch 
+        #lmbda es un parámetro que regulariza
+        #n es el número total de datos para entrenar
         """Update the network's weights and biases by applying
         gradient descent using backpropagation to a single mini batch.
         The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
@@ -96,7 +110,8 @@ class Network(object): #Define de que tipo de clase será la neurona
             nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
             #El nabla_b y nabla_w invocan el algoritmo de backpropagation 
             #el cual es una forma de calcular el gradiente de la función de costo
-        self.weights = [w-(eta/len(mini_batch))*nw
+        self.weights = [(1-eta*(lmbda/n))*w-(eta/len(mini_batch))*nw
+            #w-(eta/len(mini_batch))*nwesta es la función anterior
                         for w, nw in zip(self.weights, nabla_w)] #A los pesos se les resta
         #el valor de aprendizaje
         self.biases = [b-(eta/len(mini_batch))*nb
@@ -124,9 +139,10 @@ class Network(object): #Define de que tipo de clase será la neurona
         # backward pass
             #El delta (línea 127) calcula el error de atrás para adelante
             # El símbolo \ hace que cambie de renglón
-        delta = self.cost_derivative(activations[-1], y) * \
-                sigmoid_prime(zs[-1])
-        #Calcula la derivada de la función sigmoide.
+        delta = (self.cost).delta(zs[-1], activations[-1], y) #quitamos la derivada
+        #self.cost_derivative(activations[-1], y) * \
+        #  sigmoid_prime(zs[-1]) #esta y el renglón de arriva es el código anterior la cual
+        #calcula la derivada de la función sigmoide.
         nabla_b[-1] = delta    #Da como resultado delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         #Calcula los gradientes de la función de costo con respecto a 
