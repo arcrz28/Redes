@@ -83,6 +83,31 @@ class Network(object): #Define de que tipo de clase será la neurona
                 #.format(j) sustituye a {0} con el valor de la variable j 
                 #Es una secuencia que contiene a {0} que será sustituido
 
+    def update_mini_batch(self, mini_batch, eta, mini_batch_size):  ##Agregamos primero lmbda, n
+        #Actualiza los valores de los pesos y los biases calculando
+        #el gradiente para el mini batch 
+        #lmbda es un parámetro que regulariza
+        #n es el número total de datos para entrenar
+        """Update the network's weights and biases by applying
+        gradient descent using backpropagation to a single mini batch.
+        The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
+        is the learning rate."""
+        nabla_b = [np.zeros(b.shape) for b in self.biases] #lo que hace es llenar de ceros
+        #Se llena de la suma de nuestro gradiente por el mini batch
+        nabla_w = [np.zeros(w.shape) for w in self.weights]
+        for x, y in mini_batch:
+            delta_nabla_b, delta_nabla_w = self.backprop(x, y)  #Función de costo
+            #Utiliza el método de backpropagation para 
+            #calcular las derivadas de Cx con respecto de w y de b
+            nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
+            nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
+            #El nabla_b y nabla_w invocan el algoritmo de backpropagation 
+            #el cual es una forma de calcular el gradiente de la función de costo
+        self.weights = [w-(eta/len(mini_batch))*nw
+                        for w, nw in zip(self.weights, nabla_w)] #A los pesos se les resta
+        #el valor de aprendizaje
+        self.biases = [b-(eta/len(mini_batch))*nb
+                       for b, nb in zip(self.biases, nabla_b)]
 #"Aquí vamos a implementar el optimizador Adam "
     def adam(self, training_data, epochs, mini_batch_size, eta, test_data=None, beta_1=0.9, beta_2=0.999, epsilon=1e-07):            
         self.mini_batch_size = mini_batch_size
@@ -139,34 +164,6 @@ class Network(object): #Define de que tipo de clase será la neurona
             else:
                 print(f"Epoch {j} complete")
         print("Completado")
-            
-        
-
-    def update_mini_batch(self, mini_batch, eta, mini_batch_size):  ##Agregamos primero lmbda, n
-        #Actualiza los valores de los pesos y los biases calculando
-        #el gradiente para el mini batch 
-        #lmbda es un parámetro que regulariza
-        #n es el número total de datos para entrenar
-        """Update the network's weights and biases by applying
-        gradient descent using backpropagation to a single mini batch.
-        The ``mini_batch`` is a list of tuples ``(x, y)``, and ``eta``
-        is the learning rate."""
-        nabla_b = [np.zeros(b.shape) for b in self.biases] #lo que hace es llenar de ceros
-        #Se llena de la suma de nuestro gradiente por el mini batch
-        nabla_w = [np.zeros(w.shape) for w in self.weights]
-        for x, y in mini_batch:
-            delta_nabla_b, delta_nabla_w = self.backprop(x, y)  #Función de costo
-            #Utiliza el método de backpropagation para 
-            #calcular las derivadas de Cx con respecto de w y de b
-            nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
-            nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
-            #El nabla_b y nabla_w invocan el algoritmo de backpropagation 
-            #el cual es una forma de calcular el gradiente de la función de costo
-        self.weights = [w-(eta/len(mini_batch))*nw
-                        for w, nw in zip(self.weights, nabla_w)] #A los pesos se les resta
-        #el valor de aprendizaje
-        self.biases = [b-(eta/len(mini_batch))*nb
-                       for b, nb in zip(self.biases, nabla_b)]
 
     def backprop(self, x, y, mini_batch_size):
         #crea listas para guardar los gradientes de los biases y pesos respectivamente
