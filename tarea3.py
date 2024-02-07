@@ -262,7 +262,7 @@ def sigmoid(z): #Función sigmoide
     """The sigmoid function."""
     return 1.0/(1.0+np.exp(-z))
 
-def sigmoid_prime(z):   #Derivada de la función sigmoide
+def sigmoid_prime(z):   #Deriv$ada de la función sigmoide
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
 #Devuelve el valor de la derivada
