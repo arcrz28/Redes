@@ -168,7 +168,7 @@ class Network(object): #Define de que tipo de clase será la neurona
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
 
-    def backprop(self, x, y):
+    def backprop(self, x, y, mini_batch_size):
         #crea listas para guardar los gradientes de los biases y pesos respectivamente
         #Luego los calcula de la forma de backpropagation y los actualiza.
         """Return a tuple ``(nabla_b, nabla_w)`` representing the
@@ -188,10 +188,13 @@ class Network(object): #Define de que tipo de clase será la neurona
                                     #definió en el renglón anterior
             activations.append(activation)
         # backward pass
-            #El delta (línea 127) calcula el error de atrás para adelante
-            # El símbolo \ hace que cambie de renglón
-        delta = (self.cost).delta(zs[-1], activations[-1], y) #quitamos la derivada
+        match self.loss_function:
+            case "mean_square_avg":
+                delta = (self.cost).delta(zs[-1], activations[-1], y) #quitamos la derivada
         #self.cost_derivative(activations[-1], y) * \
+                sigmoid_prime(zs[-1])
+            case "cross_entropy":
+                delta = activations[-1]-y
         #  sigmoid_prime(zs[-1]) #esta y el renglón de arriva es el código anterior la cual
         #calcula la derivada de la función sigmoide.
         nabla_b[-1] = delta    #Da como resultado delta
@@ -231,6 +234,7 @@ class Network(object): #Define de que tipo de clase será la neurona
         #Se utiliza para tomar en cuenta los máximos de los datos
         return sum(int(x == y) for (x, y) in test_results)
         #En esta función se predice cuántos datos coincidieron, luego se suman y los regresa 
+    
     def cost_derivative(self, output_activations, y):
         #El comando cost_derivative toma los parámetros  donde self es la instancia de la clase
         #Y output_activations son arreglos de las activaciones de salida; y la salida
