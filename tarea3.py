@@ -235,6 +235,20 @@ class Network(object): #Define de que tipo de clase será la neurona
         return sum(int(x == y) for (x, y) in test_results)
         #En esta función se predice cuántos datos coincidieron, luego se suman y los regresa 
     
+    #Implementemos softmax
+    def softmax(self,x):
+        z = xa = [zi/sum(z) for zi in z]
+        return a
+    
+    def softmax_prime(self,x):
+        softmax = self.softmax
+        return [ai*(1-ai) for ai in softmax]
+    
+    def cross_entropy_d(self, x, y):
+        a = self.softmax
+        nabla_c = [-yi/(ai) for ai, yi in zip(a,y)]
+        return nabla_c
+
     def cost_derivative(self, output_activations, y):
         #El comando cost_derivative toma los parámetros  donde self es la instancia de la clase
         #Y output_activations son arreglos de las activaciones de salida; y la salida
@@ -255,4 +269,3 @@ def sigmoid_prime(z):   #Derivada de la función sigmoide
     return sigmoid(z)*(1-sigmoid(z))
 #Devuelve el valor de la derivada
 #
-#Ahora utilicemos un optimizador, en nuestro caso utilizaremos SGD momentum
