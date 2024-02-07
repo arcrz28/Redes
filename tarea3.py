@@ -253,7 +253,7 @@ class Network(object): #Define de que tipo de clase será la neurona
         #El comando cost_derivative toma los parámetros  donde self es la instancia de la clase
         #Y output_activations son arreglos de las activaciones de salida; y la salida
         #esperada 
-        """Return the vector of partial derivatives \partial C_x /
+        r"""Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
         return (output_activations-y)
 
