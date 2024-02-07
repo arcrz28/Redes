@@ -84,7 +84,18 @@ class Network(object): #Define de que tipo de clase será la neurona
                 #Es una secuencia que contiene a {0} que será sustituido
 
 #"Aquí vamos a implementar el optimizador Adam "
-                
+    def adam(self, training_data, epochs, mini_batch_size, eta, test_data=None, beta_1=0.9, beta_2=0.999, epsilon=1e-07):            
+        self.mini_batch_size = mini_batch_size
+
+        def update_mini_batch(mini_batch, eta, beta_1, beta_2, epsilon, t, mini_batch_size):
+            nabla_b = [np.zeros(b.shape) for b in self.biases]
+            nabla_w = [np.zeros(w.shape) for w in self.weights]
+            # Llamo a las variables m y v que están fuera de esta función y las actualizo
+            nonlocal m_b
+            nonlocal m_w
+            nonlocal v_b
+            nonlocal v_w
+        
 
     def update_mini_batch(self, mini_batch, eta, mini_batch_size):  ##Agregamos primero lmbda, n
         #Actualiza los valores de los pesos y los biases calculando
