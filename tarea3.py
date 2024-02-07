@@ -43,12 +43,6 @@ class Network(object): #Define de que tipo de clase será la neurona
         #numpy.random.randn(y,x), numpy,random.randn(y,1) crea arreglos de un tamaño específico
         # y lo "llena" con valores aleatorios
 
-    def feedforward(self, a): #Inicia el ciclo de la red neuronal, es un valor de inicialización por la función sigmoide
-        """Return the output of the network if ``a`` is input."""
-        for b, w in zip(self.biases, self.weights):
-            a = sigmoid(np.dot(w, a)+b) #Hace un producto punto y le sumamos los bias
-        return a
-
     def SGD(self, training_data, epochs, mini_batch_size, eta,
             test_data=None):
         #El SGD es el statistic Gradient Descent y hace una aproximación al descenso de cada iteración
@@ -62,27 +56,7 @@ class Network(object): #Define de que tipo de clase será la neurona
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
-        if test_data:         #son los datos que utiliza cada red para hacer pruebas o entrenar
-            test_data = list(test_data) # crea una lista con los valores de prueba
-            n_test = len(test_data) #Este da el tamaño de los datos a entrenar
-
-        training_data = list(training_data)  #se crea una lista con valores que serán entrenados
-        n = len(training_data)  #Calcula el número total de muestras de entrenamiento
-        for j in range(epochs):
-            random.shuffle(training_data) # Barajea o reorganiza los datos que serán entrenados aleatoriamente 
-            mini_batches = [
-                training_data[k:k+mini_batch_size]
-                for k in range(0, n, mini_batch_size)]
-            for mini_batch in mini_batches:  #Agrupa los datos en subconjuntos o "conjuntos más pequeños"
-                self.update_mini_batch(mini_batch, eta) #Actualiza el mini batc
-            if test_data:
-                print("Epoch {0}: {1} / {2}".format( #Este es un ciclo que nos permitirá ver las epocas
-                    j, self.evaluate(test_data), n_test))
-            else:
-                print("Epoch {0} complete".format(j)) #Devuelve el valor de las épocas.
-                #.format(j) sustituye a {0} con el valor de la variable j 
-                #Es una secuencia que contiene a {0} que será sustituido
-
+        
     def update_mini_batch(self, mini_batch, eta, mini_batch_size):  ##Agregamos primero lmbda, n
         #Actualiza los valores de los pesos y los biases calculando
         #el gradiente para el mini batch 
@@ -108,6 +82,27 @@ class Network(object): #Define de que tipo de clase será la neurona
         #el valor de aprendizaje
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
+        if test_data:         #son los datos que utiliza cada red para hacer pruebas o entrenar
+            test_data = list(test_data) # crea una lista con los valores de prueba
+            n_test = len(test_data) #Este da el tamaño de los datos a entrenar
+
+        training_data = list(training_data)  #se crea una lista con valores que serán entrenados
+        n = len(training_data)  #Calcula el número total de muestras de entrenamiento
+        for j in range(epochs):
+            random.shuffle(training_data) # Barajea o reorganiza los datos que serán entrenados aleatoriamente 
+            mini_batches = [
+                training_data[k:k+mini_batch_size]
+                for k in range(0, n, mini_batch_size)]
+            for mini_batch in mini_batches:  #Agrupa los datos en subconjuntos o "conjuntos más pequeños"
+                self.update_mini_batch(mini_batch, eta) #Actualiza el mini batc
+            if test_data:
+                print("Epoch {0}: {1} / {2}".format( #Este es un ciclo que nos permitirá ver las epocas
+                    j, self.evaluate(test_data), n_test))
+            else:
+                print("Epoch {0} complete".format(j)) #Devuelve el valor de las épocas.
+                #.format(j) sustituye a {0} con el valor de la variable j 
+                #Es una secuencia que contiene a {0} que será sustituido
+
 #"Aquí vamos a implementar el optimizador Adam "
     def adam(self, training_data, epochs, mini_batch_size, eta, test_data=None, beta_1=0.9, beta_2=0.999, epsilon=1e-07):            
         self.mini_batch_size = mini_batch_size
@@ -141,7 +136,9 @@ class Network(object): #Define de que tipo de clase será la neurona
             self.biases = [b - (eta/(np.sqrt(vb)+epsilon))*mb 
                             for b, vb, mb in zip(self.biases, v_b_hat, m_b_hat)]        
             
-        if test_data: n_test = len(test_data)
+        if test_data:
+            test_data = list(test_data)
+            n_test = len(test_data)
         n = len(training_data)
         m_b = [abs(np.zeros(b.shape)) for b in self.biases] # m para las b
         v_b = [abs(np.zeros(b.shape)) for b in self.biases] # v para las b
@@ -164,6 +161,11 @@ class Network(object): #Define de que tipo de clase será la neurona
             else:
                 print(f"Epoch {j} complete")
         print("Completado")
+
+        def feedforward(self, a): #Inicia el ciclo de la red neuronal, es un valor de inicialización por la función sigmoide
+         for b, w in zip(self.biases, self.weights):
+            a = sigmoid(np.dot(w, a)+b) #Hace un producto punto y le sumamos los bias
+         return a
 
     def backprop(self, x, y, mini_batch_size):
         #crea listas para guardar los gradientes de los biases y pesos respectivamente
@@ -234,7 +236,8 @@ class Network(object): #Define de que tipo de clase será la neurona
     
     #Implementemos softmax
     def softmax(self,x):
-        z = xa = [zi/sum(z) for zi in z]
+        z = x
+        a = [zi/sum(z) for zi in z]
         return a
     
     def softmax_prime(self,x):
@@ -253,8 +256,6 @@ class Network(object): #Define de que tipo de clase será la neurona
         """Return the vector of partial derivatives \partial C_x /
         \partial a for the output activations."""
         return (output_activations-y)
-    #Decuelve la derivada elemento a elemento de Cx para la salida
-    #de las activaciones
 
 #### Miscellaneous functions
 def sigmoid(z): #Función sigmoide
