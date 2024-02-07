@@ -116,10 +116,10 @@ class Network(object): #Define de que tipo de clase será la neurona
             nabla_b = [np.zeros(b.shape) for b in self.biases]
             nabla_w = [np.zeros(w.shape) for w in self.weights]
             # Llamo a las variables p y h que están fuera de la función 
-            nonlocal p_b
-            nonlocal p_w
-            nonlocal h_b
-            nonlocal h_w
+            nonlocal m_b
+            nonlocal m_w
+            nonlocal v_b
+            nonlocal v_w
             for x, y in mini_batch:
                 delta_nabla_b, delta_nabla_w = self.backprop(x, y, mini_batch_size)
                 nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
