@@ -90,11 +90,32 @@ class Network(object): #Define de que tipo de clase será la neurona
         def update_mini_batch(mini_batch, eta, beta_1, beta_2, epsilon, t, mini_batch_size):
             nabla_b = [np.zeros(b.shape) for b in self.biases]
             nabla_w = [np.zeros(w.shape) for w in self.weights]
-            # Llamo a las variables m y v que están fuera de esta función y las actualizo
-            nonlocal m_b
-            nonlocal m_w
-            nonlocal v_b
-            nonlocal v_w
+            # Llamo a las variables p y h que están fuera de la función 
+            nonlocal p_b
+            nonlocal p_w
+            nonlocal h_b
+            nonlocal h_w
+            for x, y in mini_batch:
+                delta_nabla_b, delta_nabla_w = self.backprop(x, y, mini_batch_size)
+                nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
+                nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
+        
+            m_b = [beta_1*mb + (1-beta_1)*nb for mb, nb in zip(m_b, nabla_b)]
+            v_b = [beta_2*vb + (1-beta_2)*(nb**2) for vb, nb in zip(v_b, nabla_b)]
+            m_w = [beta_1*mw + (1-beta_1)*nw for mw, nw in zip(m_w, nabla_w)]
+            v_w = [beta_2*vw + (1-beta_2)*(nw**2) for vw, nw in zip(v_w, nabla_w)]
+
+        #ahora veamos los hats de p y h y luego aclualizamos w y b
+            m_b_hat = [mb/(1-beta_1**t) for mb in m_b]
+            m_w_hat = [mw/(1-beta_1**t) for mw in m_w]
+            v_b_hat = [vb/(1-beta_2**t) for vb in v_b]
+            v_w_hat = [vw/(1-beta_2**t) for vw in v_w]
+            
+            self.weights = [w - (eta/(np.sqrt(vw)+epsilon))*mw 
+                            for w, vw, mw in zip(self.weights, v_w_hat, m_w_hat)]
+            self.biases = [b - (eta/(np.sqrt(vb)+epsilon))*mb 
+                            for b, vb, mb in zip(self.biases, v_b_hat, m_b_hat)]
+            
         
 
     def update_mini_batch(self, mini_batch, eta, mini_batch_size):  ##Agregamos primero lmbda, n
