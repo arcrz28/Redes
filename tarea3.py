@@ -114,7 +114,31 @@ class Network(object): #Define de que tipo de clase será la neurona
             self.weights = [w - (eta/(np.sqrt(vw)+epsilon))*mw 
                             for w, vw, mw in zip(self.weights, v_w_hat, m_w_hat)]
             self.biases = [b - (eta/(np.sqrt(vb)+epsilon))*mb 
-                            for b, vb, mb in zip(self.biases, v_b_hat, m_b_hat)]
+                            for b, vb, mb in zip(self.biases, v_b_hat, m_b_hat)]        
+            
+        if test_data: n_test = len(test_data)
+        n = len(training_data)
+        m_b = [abs(np.zeros(b.shape)) for b in self.biases] # m para las b
+        v_b = [abs(np.zeros(b.shape)) for b in self.biases] # v para las b
+        m_w = [abs(np.zeros(w.shape)) for w in self.weights] # m para las w
+        v_w = [abs(np.zeros(w.shape)) for w in self.weights] # v para las w
+        t = 0
+        for j in range(epochs):
+            t += 1
+            random.shuffle(training_data)
+            mini_batches = [
+                training_data[k:k+mini_batch_size]
+                for k in range(0, n, mini_batch_size)]
+            for mini_batch in mini_batches:
+                update_mini_batch(mini_batch, eta, beta_1, beta_2, epsilon, t, mini_batch_size)
+            if test_data:
+                if self.softmax:
+                    print(f"Epoch {j}: {self.evaluate(test_data)} / {n_test}")
+                else:
+                    print(f"Epoch {j}: {self.evaluate(test_data)} / {n_test}")
+            else:
+                print(f"Epoch {j} complete")
+        print("Completado")
             
         
 
