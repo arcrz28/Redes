@@ -19,18 +19,11 @@ import random  #importa datos aleatorios
 
 # Third-party libraries
 import numpy as np #Es la librería que importa ayuda para trabajar con
-#largos arreglos multi-dimensionales y matrices 
-class CrossEntropyCost(object):
-    def fn(a,y):
-        return np.sum(np.nan_to_num(-y*np.log(a)+(1-y)*np.log(1-a))) #Esta es la la función de cross-entropy vista en clase
-    
-    def delta(z,a,y):
-        return (a-y) #este es el error, que es el output menos el "output" deseado
-        
+#largos arreglos multi-dimensionales y matrices      
 
 class Network(object): #Define de que tipo de clase será la neurona
 
-    def __init__(self, sizes, cost=CrossEntropyCost): #Define los parámetros del número de neuronas por capas y pesos
+    def __init__(self, sizes, loss_function="mean_square_avg"): #Define los parámetros del número de neuronas por capas y pesos
         """The list ``sizes`` contains the number of neurons in the
         respective layers of the network.  For example, if the list
         was [2, 3, 1] then it would be a three-layer network, with the
@@ -46,6 +39,7 @@ class Network(object): #Define de que tipo de clase será la neurona
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]] #Esta función crea los biases de una manera aleatoria
         self.weights = [np.random.randn(y, x) #Esta función crea los pesos de una manera aleatoria
                         for x, y in zip(sizes[:-1], sizes[1:])]
+        self.loss_function = loss_function
         #numpy.random.randn(y,x), numpy,random.randn(y,1) crea arreglos de un tamaño específico
         # y lo "llena" con valores aleatorios
 
@@ -55,8 +49,7 @@ class Network(object): #Define de que tipo de clase será la neurona
             a = sigmoid(np.dot(w, a)+b) #Hace un producto punto y le sumamos los bias
         return a
 
-    def SGD(self, training_data, epochs, mini_batch_size, eta, 
-            lmbda= 0,0
+    def SGD(self, training_data, epochs, mini_batch_size, eta,
             test_data=None):
         #El SGD es el statistic Gradient Descent y hace una aproximación al descenso de cada iteración
         #En este caso, obtiene  los w para después hacer el backpropagation, además de que nos evita que se "atore"
@@ -90,7 +83,10 @@ class Network(object): #Define de que tipo de clase será la neurona
                 #.format(j) sustituye a {0} con el valor de la variable j 
                 #Es una secuencia que contiene a {0} que será sustituido
 
-    def update_mini_batch(self, mini_batch, eta, lmbda, n):  ##Agregamos primero lmbda, n
+#"Aquí vamos a implementar el optimizador Adam "
+                
+
+    def update_mini_batch(self, mini_batch, eta, mini_batch_size):  ##Agregamos primero lmbda, n
         #Actualiza los valores de los pesos y los biases calculando
         #el gradiente para el mini batch 
         #lmbda es un parámetro que regulariza
@@ -110,8 +106,7 @@ class Network(object): #Define de que tipo de clase será la neurona
             nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
             #El nabla_b y nabla_w invocan el algoritmo de backpropagation 
             #el cual es una forma de calcular el gradiente de la función de costo
-        self.weights = [(1-eta*(lmbda/n))*w-(eta/len(mini_batch))*nw
-            #w-(eta/len(mini_batch))*nwesta es la función anterior
+        self.weights = [w-(eta/len(mini_batch))*nw
                         for w, nw in zip(self.weights, nabla_w)] #A los pesos se les resta
         #el valor de aprendizaje
         self.biases = [b-(eta/len(mini_batch))*nb
