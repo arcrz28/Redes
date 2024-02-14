@@ -50,3 +50,15 @@ exp3 = Sequential([
       ])
 exp3.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+
+#Inciso b.2) cuarto experimento: Cambiaremos una función de activación, número de 
+#epocas y neuronas.
+
+exp4 = Sequential([
+    Dense(30, activation='relu', input_shape=(784,)),
+    Dense(30, activation='relu'),
+    Dense(10, activation='relu'),
+    Dense(10,activation='softmax') 
+      ])
+exp4.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
