@@ -65,3 +65,15 @@ history = exp4.fit(x_trainv, y_trainc, batch_size = 10, epochs = 30, verbose=1, 
 
 #Ahora comencemos con el inciso c) de la tarea agregando regularizaciones
 #inciso c.1) regularización L1
+
+
+#inciso c.2) regularización L2
+
+
+#inciso c.3) regularización L1L2
+
+
+#inciso c.4) regularización Dropout
+
+
+#Inciso c.5) regularización L1L2 y Dropout
