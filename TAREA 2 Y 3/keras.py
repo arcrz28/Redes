@@ -32,10 +32,21 @@ exp1 = Sequential([
 exp1.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, validation_data=(x_testv, y_testc))
 
-#Pasemos al inciso b1 que es hacer el segundo experinento cambiando neuronas 
+#Pasemos al inciso b.1) que es hacer el segundo experinento cambiando neuronas 
 exp2 = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,)),
     Dense(10,activation='softmax') 
       ])
 exp2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, validation_data=(x_testv, y_testc))
+history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+
+#En el inciso b.2) que es el tercer experimento, cambiemos el número de neuronas y épocas
+
+exp2 = Sequential([
+    Dense(256, activation='sigmoid', input_shape=(784,)),
+    Dense(50, activation='sigmoid'),
+    Dense(10, activation='softmax'),
+    Dense(10,activation='relu') 
+      ])
+exp2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
