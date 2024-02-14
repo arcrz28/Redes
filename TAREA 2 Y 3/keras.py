@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow import keras as keras 
 from keras.datasets import mnist
 from keras.models import Sequentials
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Activation
 from keras. optimizers import Adam, RMSprop, SGD
 from keras.regularizers import L1, L2, L1L2
 import numpy as np
