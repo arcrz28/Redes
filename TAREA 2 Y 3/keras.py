@@ -42,11 +42,11 @@ history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, 
 
 #En el inciso b.2) que es el tercer experimento, cambiemos el número de neuronas y épocas
 
-exp2 = Sequential([
+exp3 = Sequential([
     Dense(256, activation='sigmoid', input_shape=(784,)),
     Dense(50, activation='sigmoid'),
     Dense(10, activation='softmax'),
     Dense(10,activation='relu') 
       ])
-exp2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+exp3.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
