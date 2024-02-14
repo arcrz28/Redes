@@ -30,4 +30,12 @@ exp1 = Sequential([
     Dense(10,activation='softmax') 
       ])
 exp1.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 15, validation_data=(x_testv, y_testc))
+history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, validation_data=(x_testv, y_testc))
+
+#Pasemos al inciso b1 que es hacer el segundo experinento cambiando neuronas 
+exp2 = Sequential([
+    Dense(512, activation='sigmoid', input_shape=(784,)),
+    Dense(10,activation='softmax') 
+      ])
+exp2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, validation_data=(x_testv, y_testc))
