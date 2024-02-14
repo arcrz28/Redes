@@ -38,7 +38,7 @@ exp2 = Sequential([
     Dense(10,activation='softmax') 
       ])
 exp2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+history = exp2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
 #En el inciso b.2) que es el tercer experimento, cambiemos el número de neuronas y épocas
 
@@ -49,7 +49,7 @@ exp3 = Sequential([
     Dense(10,activation='relu') 
       ])
 exp3.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+history = exp3.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
 #Inciso b.2) cuarto experimento: Cambiaremos una función de activación, número de 
 #epocas y neuronas.
@@ -61,4 +61,7 @@ exp4 = Sequential([
     Dense(10,activation='softmax') 
       ])
 exp4.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 30, verbose=1, validation_data=(x_testv, y_testc))
+history = exp4.fit(x_trainv, y_trainc, batch_size = 10, epochs = 30, verbose=1, validation_data=(x_testv, y_testc))
+
+#Ahora comencemos con el inciso c) de la tarea agregando regularizaciones
+#inciso c.1) regularización L1
