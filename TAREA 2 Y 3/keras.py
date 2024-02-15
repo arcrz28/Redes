@@ -89,19 +89,19 @@ expL1L2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr
 history = expL1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
 #inciso c.4) regularización Dropout
-expL1L2 = Sequential([
+exp_drop = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,), 
     Dropout(0.2)),
     Dense(10,activation='softmax') 
       ])
-expL1L2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = expL1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+exp_drop.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+history = exp_drop.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
 #Inciso c.5) regularización L1L2 y Dropout
-expL1L2 = Sequential([
+exp_L1L2_drop = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,), activity_regularizer=L1L2(l1=0.01, l2=0.01)),
     Dropout(0.2),
     Dense(10,activation='softmax') 
       ])
-expL1L2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = expL1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+exp_L1L2_drop.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+history = exp_L1L2_drop.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
