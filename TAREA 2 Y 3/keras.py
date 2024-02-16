@@ -70,6 +70,29 @@ exp2 = Sequential([
 exp2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, verbose=1, validation_data=(x_testv, y_testc))
 
+# Gráfica de pérdida-epoca del experimento 2
+plt.xlabel("# Epoca")
+plt.ylabel("Perdida")
+plt.plot(history.history["loss"])
+
+import matplotlib.pyplot as plt
+image = x_train[5].reshape((28, 28))
+plt.figure()
+plt.imshow(image, cmap="gray")#número de imagen en el mnist
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+score = exp2.evaluate(x_testv, y_testc, verbose=1) #evaluar la eficiencia del modelo
+print(score)
+a=exp2.predict(x_testv) #predicción de la red entrenada
+print(a.shape)
+print(a[1])
+print("resultado correcto:")
+print(y_testc[1])     #si sale :)
+
+
+"experimento 3"
 #En el inciso b.2) que es el tercer experimento, cambiemos el número de neuronas y épocas
 
 exp3 = Sequential([
@@ -81,7 +104,11 @@ exp3 = Sequential([
 exp3.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp3.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, verbose=1, validation_data=(x_testv, y_testc))
 
-#Inciso b.2) cuarto experimento: Cambiaremos una función de activación, número de 
+
+
+
+
+#Inciso b.3) cuarto experimento: Cambiaremos una función de activación, número de 
 #epocas y neuronas.
 
 exp4 = Sequential([
@@ -92,6 +119,11 @@ exp4 = Sequential([
       ])
 exp4.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp4.fit(x_trainv, y_trainc, batch_size = 10, epochs = 30, verbose=1, validation_data=(x_testv, y_testc))
+
+
+
+
+
 
 #Ahora comencemos con el inciso c) de la tarea agregando regularizaciones
 #inciso c.1) regularización L1
