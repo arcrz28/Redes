@@ -223,11 +223,13 @@ history = exp_L1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, verbose
 
 
 #inciso c.4) regularización Dropout
-exp_drop = Sequential([
-    Dense(512, activation='sigmoid', input_shape=(784,), 
-    Dropout(0.2)),
-    Dense(10,activation='softmax') 
-      ])
+exp_drop = Sequential()
+exp_drop.add(Dense(512, activation='sigmoid', input_shape=(784,)))
+exp_drop.add(Dropout(0.2))
+exp_drop.add(Dense(10,activation='softmax'))
+
+exp_drop.summary()      
+
 exp_drop.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp_drop.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
