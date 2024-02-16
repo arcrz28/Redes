@@ -60,9 +60,10 @@ print("resultado correcto:")
 print(y_testc[1])     #si sale :)
 
 
+'INCISO B'
 
 "Pasemos al inciso b.1) que es hacer el segundo experinento cambiando neuronas" 
-
+"Experimento 2"
 exp2 = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,)),
     Dense(10,activation='softmax') 
@@ -126,7 +127,6 @@ print("resultado correcto:")
 print(y_testc[1])     #si sale :)
 
 
-
 "Experimento 4"
 #Inciso b.3) cuarto experimento: Cambiaremos una función de activación, número de 
 #epocas y neuronas.
@@ -163,6 +163,18 @@ print(y_testc[1])     #si sale :)
 
 
 
+
+"El que mejor salió fue el experimento 2, por lo que implementaremos los regularizadores sobre ese"
+"Primero hagamos el sobreajuste"
+modelo_overfit = Sequential([
+    Dense(512, activation='sigmoid', input_shape=(784,)),
+    Dense(10, activation="softmax")
+])
+
+
+
+
+"REGULARIZACIONES"
 
 #Ahora comencemos con el inciso c) de la tarea agregando regularizaciones
 #inciso c.1) regularización L1
