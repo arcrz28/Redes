@@ -208,12 +208,14 @@ history = expL2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, validation
 
 
 #inciso c.3) regularización L1L2
-expL1L2 = Sequential([
-    Dense(512, activation='sigmoid', input_shape=(784,), activity_regularizer=L1L2(l1=0.01, l2=0.01)),
-    Dense(10,activation='softmax') 
-      ])
-expL1L2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = expL1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+exp_L1L2 = Sequential()
+exp_L1L2.add(Dense(512, activation='sigmoid', input_shape=(784,), kernel_regularizer=regularizers.L1L2(l1=0.01, l2=0.01)))
+exp_L1L2.add(Dense(10,activation='softmax') )
+
+exp_L1L2.summary()
+
+exp_L1L2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
+history = exp_L1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, verbose=1, validation_data=(x_testv, y_testc))
 
 
 
