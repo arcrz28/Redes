@@ -7,8 +7,6 @@ from keras.layers import Dense, Dropout, Activation
 from keras. optimizers import Adam, RMSprop, SGD
 from keras.regularizers import L1, L2, L1L2
 import numpy as np
-import matplotlib.pyplot as plt
-from keras.callbacks import History
 
 dataset= mnist.load_data() 
 (x_train, y_train), (x_test,y_test) = dataset #Son las variables separadas de los datos de entrenamiento y pruebas
@@ -33,15 +31,6 @@ exp1 = Sequential([
       ])
 exp1.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, validation_data=(x_testv, y_testc))
-
-# Gráfica de pérdida-epoca del experimento 1
-plt.xlabel("# Epoca")
-plt.ylabel("Perdida")
-plt.plot(history.history["loss"])
-
-
-
-
 
 #Pasemos al inciso b.1) que es hacer el segundo experinento cambiando neuronas 
 exp2 = Sequential([
