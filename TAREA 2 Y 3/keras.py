@@ -179,12 +179,14 @@ modelo_overfit = Sequential([
 
 #Ahora comencemos con el inciso c) de la tarea agregando regularizaciones
 #inciso c.1) regularización L1
-expL1 = Sequential([
-    Dense(512, activation='sigmoid', input_shape=(784,), activity_regularizer=L1(l1=0.01)),
-    Dense(10,activation='softmax') 
-      ])
-expL1.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
-history = expL1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+expL1 = Sequential()
+expL1.add(Dense(512, activation='sigmoid', input_shape=(784,), kernel_regularizer=regularizers.L1(l1=0.01)),)
+expL1.add(Dense(10, activation="softmax"))
+
+expL1.summary()
+
+expL1.compile(loss='categorical_crossentropy',optimizer=Adam(learning_rate=1e-4),metrics=['accuracy'])
+history = expL1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, validation_data = (x_testv, y_testc))
 
 
 
