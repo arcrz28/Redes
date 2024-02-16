@@ -104,10 +104,30 @@ exp3 = Sequential([
 exp3.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp3.fit(x_trainv, y_trainc, batch_size = 10, epochs = 10, verbose=1, validation_data=(x_testv, y_testc))
 
+# Gráfica de pérdida-epoca del experimento 3
+plt.xlabel("# Epoca")
+plt.ylabel("Perdida")
+plt.plot(history.history["loss"])
+
+import matplotlib.pyplot as plt
+image = x_train[5].reshape((28, 28))
+plt.figure()
+plt.imshow(image, cmap="gray")#número de imagen en el mnist
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+score = exp3.evaluate(x_testv, y_testc, verbose=1) #evaluar la eficiencia del modelo
+print(score)
+a=exp3.predict(x_testv) #predicción de la red entrenada
+print(a.shape)
+print(a[1])
+print("resultado correcto:")
+print(y_testc[1])     #si sale :)
 
 
 
-
+"Experimento 4"
 #Inciso b.3) cuarto experimento: Cambiaremos una función de activación, número de 
 #epocas y neuronas.
 
@@ -119,7 +139,26 @@ exp4 = Sequential([
       ])
 exp4.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp4.fit(x_trainv, y_trainc, batch_size = 10, epochs = 30, verbose=1, validation_data=(x_testv, y_testc))
+# Gráfica de pérdida-epoca del experimento 3
+plt.xlabel("# Epoca")
+plt.ylabel("Perdida")
+plt.plot(history.history["loss"])
 
+import matplotlib.pyplot as plt
+image = x_train[5].reshape((28, 28))
+plt.figure()
+plt.imshow(image, cmap="gray")#número de imagen en el mnist
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+score = exp4.evaluate(x_testv, y_testc, verbose=1) #evaluar la eficiencia del modelo
+print(score)
+a=exp4.predict(x_testv) #predicción de la red entrenada
+print(a.shape)
+print(a[1])
+print("resultado correcto:")
+print(y_testc[1])     #si sale :)
 
 
 
