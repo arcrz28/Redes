@@ -1,3 +1,7 @@
+#El código está completo, el de los experimentos con y sin regularizadores, porque tuve problemas con Jupyter
+#Además de que acá están los commits.
+#Se subieron dos archivos a GitHub: Experimentos y Regularizadores, con cada código por separado
+
 #Primero vamos a importar las librerías.
 import tensorflow as tf
 from tensorflow import keras as keras 
@@ -39,11 +43,26 @@ plt.xlabel("# Epoca")
 plt.ylabel("Perdida")
 plt.plot(history.history["loss"])
 
+import matplotlib.pyplot as plt
+image = x_train[5].reshape((28, 28))
+plt.figure()
+plt.imshow(image, cmap="gray")#número de imagen en el mnist
+plt.colorbar()
+plt.grid(False)
+plt.show()
+
+score = exp1.evaluate(x_testv, y_testc, verbose=1) #evaluar la eficiencia del modelo
+print(score)
+a=exp1.predict(x_testv) #predicción de la red entrenada
+print(a.shape)
+print(a[1])
+print("resultado correcto:")
+print(y_testc[1])     #si sale :)
 
 
 
+"Pasemos al inciso b.1) que es hacer el segundo experinento cambiando neuronas" 
 
-#Pasemos al inciso b.1) que es hacer el segundo experinento cambiando neuronas 
 exp2 = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,)),
     Dense(10,activation='softmax') 
