@@ -127,6 +127,7 @@ print("resultado correcto:")
 print(y_testc[1])     #si sale :)
 
 
+
 "Experimento 4"
 #Inciso b.3) cuarto experimento: Cambiaremos una función de activación, número de 
 #epocas y neuronas.
@@ -139,7 +140,7 @@ exp4 = Sequential([
       ])
 exp4.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp4.fit(x_trainv, y_trainc, batch_size = 10, epochs = 30, verbose=1, validation_data=(x_testv, y_testc))
-# Gráfica de pérdida-epoca del experimento 3
+# Gráfica de pérdida-epoca del experimento 4
 plt.xlabel("# Epoca")
 plt.ylabel("Perdida")
 plt.plot(history.history["loss"])
@@ -185,6 +186,10 @@ expL1 = Sequential([
 expL1.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = expL1.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
+
+
+
+
 #inciso c.2) regularización L2
 expL2 = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,), activity_regularizer=L2(l2=0.01)),
@@ -192,6 +197,11 @@ expL2 = Sequential([
       ])
 expL2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = expL2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+
+
+
+
+
 
 #inciso c.3) regularización L1L2
 expL1L2 = Sequential([
@@ -201,6 +211,11 @@ expL1L2 = Sequential([
 expL1L2.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = expL1L2.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
 
+
+
+
+
+
 #inciso c.4) regularización Dropout
 exp_drop = Sequential([
     Dense(512, activation='sigmoid', input_shape=(784,), 
@@ -209,6 +224,11 @@ exp_drop = Sequential([
       ])
 exp_drop.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=lr), metrics=['accuracy'])
 history = exp_drop.fit(x_trainv, y_trainc, batch_size = 10, epochs = 20, verbose=1, validation_data=(x_testv, y_testc))
+
+
+
+
+
 
 #Inciso c.5) regularización L1L2 y Dropout
 exp_L1L2_drop = Sequential([
