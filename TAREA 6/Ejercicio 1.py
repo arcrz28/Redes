@@ -9,6 +9,9 @@ from tensorflow.keras.layers import Dense, Dropout,Activation
 from tensorflow.keras.optimizers import RMSprop, Adam
 from matplotlib import pyplot as plt
 import numpy as np
+from tensorflow.python.ops.numpy_ops import np_config
+np_config.enable_numpy_behavior()
+
 
 #La verdad busqué la manera de hacerlo de dos formas pero pienso que de ninguna manera me salió porque 
 #obtuve resultados diferentes y en esta primera forma, no me marcaba error pero no visualizo
@@ -62,3 +65,21 @@ for i in range(0, 32):
 plt.imshow(temp)
 
 
+#veamos la capita
+class BandW(Layer):
+    def __init__(self, num_outputs=1):
+        super(BandW, self).__init__()
+        self.num_outputs = num_outputs
+
+    def call(self, inputs):
+        inputs = inputs.astype("uint32")
+        shape = inputs.shape
+        numimg = shape[0]
+        imgsize = (shape[0], shape[1])
+        
+        bwimg = np.zeros((32, 32))
+        for i in range(0, 32):
+            for j in range(0, 32):
+                bwimg[i][j] = round(sum(inputs[i][j])/(3))
+        
+        return bwimg
