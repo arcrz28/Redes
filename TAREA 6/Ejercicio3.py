@@ -10,3 +10,48 @@ from tensorflow.keras.optimizers import SGD, RMSprop, Adam
 from matplotlib import pyplot as plt
 import numpy as np
 import math
+
+#usamos código base que vimos en clase y cambiamos las funciones
+
+loss_tracker = keras.metrics.Mean(name="loss")
+class Function(Sequential):
+    @property
+    def metrics(self):
+        return [loss_tracker] #igual cambia el loss_tracker
+
+    def train_step(self, data):
+        batch_size =100 #Calibra la resolucion
+        x = tf.random.uniform((batch_size,1), minval=-1, maxval=1)
+        f = tf.math.cos(2*x)
+
+        with tf.GradientTape() as tape:
+            y_pred = self(x, training=True)
+            #loss = keras.losses.mean_squared_error(y_pred,f)
+            loss = tf.math.reduce_mean(tf.math.square(y_pred-f))
+
+        grads = tape.gradient(loss, self.trainable_weights)
+        self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
+        #actualiza metricas
+        loss_tracker.update_state(loss)
+
+        return {"loss": loss_tracker.result()}
+
+class polinomio(tf.keras.layers.Layer):
+    def __init__(self, num_outputs=3):
+        super(polinomio,self).__init__()
+        self.num_outputs = num_outputs
+
+        self.freq = tf.range(0, self.num_outputs + 1)
+
+        self.kernel = self.add_weight("kernel",
+                                shape=[self.num_outputs +1])
+
+    def call(self, inputs):
+        x = tf.convert_to_tensor(inputs)
+        if (inputs.shape == ()):
+            inputs=(inputs,)
+        elif (len(inputs.shape)==1):
+            inputs=tf.expand_dims(inputs, axis=1)
+        batch = tf.shape(inputs)[0]
+        res = self.kernel[0] + self.kernel[1]*x +self.kernel[2]*x**2 + self.kernel[3]*x**3
+        return tf.expand_dims(res, axis=1)
