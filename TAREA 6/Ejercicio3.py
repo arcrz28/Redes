@@ -67,3 +67,9 @@ history2 = model_F.fit(x, epochs=1000, verbose=0)
 
 print(model_F.layers[0].trainable_weights)
 plt.plot(history2.history["loss"])
+
+a=model_F.predict(x)
+plt.plot(x,a,label="aprox")
+plt.plot(x, tf.math.cos(2*x))
+plt.legend()
+plt.show() 
