@@ -72,11 +72,11 @@ class BandW(Layer):
         self.num_outputs = num_outputs
 
     def call(self, inputs):
-        inputs = inputs.astype("uint32")
+        inputs = inputs.astype("uint32") #Es necesario el Unit??? Vi teoría y en algunas partes decía que si y otra que no
         shape = inputs.shape
         numimg = shape[0]
         imgsize = (shape[0], shape[1])
-        
+       #en este caso sí son32 por las imágenes  
         bwimg = np.zeros((32, 32))
         for i in range(0, 32):
             for j in range(0, 32):
