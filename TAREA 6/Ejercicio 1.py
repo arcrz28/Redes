@@ -83,3 +83,7 @@ class BandW(Layer):
                 bwimg[i][j] = round(sum(inputs[i][j])/(3))
         
         return bwimg
+
+plt.imshow(BandW()(x_train[2]))  #visualizamos
+
+#Aquí me sale de otros colores, pero no en blanco y negro, entonces no sé que parte no tengo presente 
