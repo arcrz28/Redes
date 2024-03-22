@@ -15,7 +15,7 @@ import numpy as np
 #dónde me equivoqué 
 
 
-class Capgris(Layer):
+class BandW(Layer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -38,7 +38,7 @@ class Capgris(Layer):
             imtest=(x_train[2]/x_train[2].max()) #normalizamos
             plt.imshow(x_train[2]) #visualizamos la imagen
 
-model_capgris=Capgris()
+model_capgris=BandW()
 
 #Auxilio, en esta parte es donde no me sale, me sale pero a color.
 
@@ -52,3 +52,13 @@ from tensorflow.keras.datasets import cifar10 #agregando esta librería para imp
 #cargamos datos
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 plt.imshow(x_train[2])
+
+#comienzo con la conversión
+imgbw = x_train[2].copy()
+temp = np.zeros((32, 32))
+for i in range(0, 32):
+    for j in range(0, 32):
+        temp[i][j] = round(sum(imgbw[i][j])/(3))
+plt.imshow(temp)
+
+
