@@ -60,3 +60,10 @@ model_F = Function()
 model_F.add(polinomio())
 model_F.build(input_shape=(1,))
 model_F.summary() 
+
+model_F.compile(optimizer=Adam(learning_rate=0.01), metrics=['loss'])
+x=tf.linspace(-1,1,100)
+history2 = model_F.fit(x, epochs=1000, verbose=0)
+
+print(model_F.layers[0].trainable_weights)
+plt.plot(history2.history["loss"])
