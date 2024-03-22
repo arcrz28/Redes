@@ -137,3 +137,15 @@ model.add(Dense(10, activation="tanh"))
 model.add(Dense(1))
 
 model.summary()
+
+#### SOLUCIÓN/GRÁFICA
+
+def sol2(x):
+    return - 0.5*tf.math.sin(x) + tf.math.cos(x)
+
+x_testv = tf.linspace(-5, 5,100)
+a=model.predict(x_testv)
+plt.figure(figsize=(8, 5), dpi=300)
+plt.plot(x_testv,a,label="aprox")
+plt.plot(x_testv, sol2(x_testv), label="exact")
+plt.legend()
