@@ -55,3 +55,8 @@ class polinomio(tf.keras.layers.Layer):
         batch = tf.shape(inputs)[0]
         res = self.kernel[0] + self.kernel[1]*x +self.kernel[2]*x**2 + self.kernel[3]*x**3
         return tf.expand_dims(res, axis=1)
+    
+model_F = Function()
+model_F.add(polinomio())
+model_F.build(input_shape=(1,))
+model_F.summary() 
