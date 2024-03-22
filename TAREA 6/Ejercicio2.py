@@ -49,3 +49,46 @@ model = Function([
 ])
 
 model.summary()
+
+#aquí al principio me salía un error en la parte del history 
+#Después me tardaba mucho en cargar
+x = tf.linspace(-1, 1, 500)
+y = 3*np.sin(np.pi*x)
+model.compile(optimizer='adam', loss='mean_squared_error', metrics=['loss'])
+
+history = model.fit(x, y, epochs=10000, batch_size=1, verbose=0)
+plt.plot(history.history["loss"])
+
+#cuando grafico me sale fea la gráfica porque la parte anterior me marcaba un error
+#se ve mejor en el pynb
+
+a=model.predict(x)
+plt.plot(x,a,label="aprox")
+plt.plot(x, tf.math.sin(np.pi*x)*3, label="exact")
+plt.legend()
+plt.show()
+
+
+
+
+#Para la siguiente función es similar el código y me pasaba el mismo error
+model = Function([
+    Dense(10, activation="tanh", input_shape=(1,)),
+    Dense(5, activation="tanh"),
+    Dense(1)
+])
+
+model.summary()
+
+x=tf.linspace(-1, 1, 100)
+model.compile(optimizer='adam', metrics=['loss'])
+
+history = model.fit(x, epochs=10000, verbose=0)
+plt.plot(history.history["loss"])
+
+
+a=model.predict(x)
+plt.plot(x,a,label="aprox")
+plt.plot(x, 1 + 2*x + 4*x**3 , label="exact")
+plt.legend()
+plt.show()
