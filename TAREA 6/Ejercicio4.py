@@ -2,7 +2,6 @@
 #Se graficará la solución numérica junto con la analítica
 
 #Inciso a) xy' + y = x^2cos(x). con y(0)=0
-#Inciso b) d^2y/dx^2 = -y con y(0)=1, y'(0)= -0.5
 
 
 import tensorflow as tf
@@ -70,3 +69,20 @@ model.compile(optimizer=RMSprop(),metrics=['loss'])
 x=tf.linspace(-5,5,100)
 history = model.fit(x,epochs=100000,verbose=0)
 plt.plot(history.history["loss"])
+
+
+###VEAMOS AHORA LA SOLUCIÓN DEL PRIMER INCISO
+
+def sol1(x):
+    return ((x**2 - 2)*np.sin(x))/x + 2*np.cos(x)
+
+x_testv = tf.linspace(-5,5,100)
+a=model.predict(x_testv)
+plt.plot(x_testv,a,label="aprox")
+plt.plot(x_testv,np.exp(-x*x),label="exact")
+plt.legend()
+plt.show()
+
+
+
+#Inciso b) d^2y/dx^2 = -y con y(0)=1, y'(0)= -0.5
