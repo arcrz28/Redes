@@ -63,3 +63,10 @@ model.add(Dense(1))
 
 
 model.summary()
+
+###COMPILAMOS
+model.compile(optimizer=RMSprop(),metrics=['loss'])
+
+x=tf.linspace(-5,5,100)
+history = model.fit(x,epochs=100000,verbose=0)
+plt.plot(history.history["loss"])
