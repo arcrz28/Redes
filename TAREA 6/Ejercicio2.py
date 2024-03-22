@@ -22,10 +22,10 @@ class Function(Sequential):
 
     def train_step(self, data):
         def funcA(x):
-            return tf.math.sin(np.pi*x)*3
+            return tf.math.sin(np.pi*x)*3 ##cambiooo
 
         def funcB(x):
-            return 1 + 2*x + 4*x**3
+            return 1 + 2*x + 4*x**3 ##cambioooo
         batch_size =100 #Calibra la resolucion
         x = tf.random.uniform((batch_size,1), minval=-1, maxval=1)
         f = funcB(x)
@@ -41,3 +41,11 @@ class Function(Sequential):
         loss_tracker.update_state(loss)
 
         return {"loss": loss_tracker.result()}
+    #Modelo 
+model = Function([
+    Dense(10, activation="tanh", input_shape=(1,)),
+    Dense(5, activation="tanh"),
+    Dense(1)
+])
+
+model.summary()
