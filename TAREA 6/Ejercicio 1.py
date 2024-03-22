@@ -37,3 +37,11 @@ class Capgris(Layer):
             x_train[2]=np.array(lst).reshape(1,28,28,3) #acomodamos la imagen para poder ver como quedó
             imtest=(x_train[2]/x_train[2].max()) #normalizamos
             plt.imshow(x_train[2]) #visualizamos la imagen
+
+model_capgris=Capgris()
+
+#Auxilio, en esta parte es donde no me sale, me sale pero a color.
+
+
+
+#""Ahora la otra forma
