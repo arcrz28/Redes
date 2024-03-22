@@ -52,3 +52,14 @@ class ODESolver(Sequential):
          self.loss_tracker.update_state(loss)
         # Return a dict mapping metric names to current value
          return {"loss": self.loss_tracker.result()}
+    
+    ###MODELO
+
+model = ODEsolver()
+
+model.add(Dense(10, activation='tanh', input_shape=(1,)))
+model.add(Dense(1, activation='tanh'))
+model.add(Dense(1))
+
+
+model.summary()
