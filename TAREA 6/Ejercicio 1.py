@@ -45,3 +45,10 @@ model_capgris=Capgris()
 
 
 #""Ahora la otra forma
+#ahora con un dataset cifar
+
+from tensorflow.keras.datasets import cifar10 #agregando esta librería para importar las imágenes
+
+#cargamos datos
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+plt.imshow(x_train[2])
