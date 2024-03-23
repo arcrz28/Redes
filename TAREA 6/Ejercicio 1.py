@@ -13,10 +13,7 @@ from tensorflow.python.ops.numpy_ops import np_config
 np_config.enable_numpy_behavior()
 
 
-#La verdad busqué la manera de hacerlo de dos formas pero pienso que de ninguna manera me salió porque 
-#obtuve resultados diferentes y en esta primera forma, no me marcaba error pero no visualizo
-#dónde me equivoqué 
-
+#hice dos maneras de realizar la red
 
 class BandW(Layer):
     def __init__(self, **kwargs):
@@ -43,7 +40,7 @@ class BandW(Layer):
 
 model_capgris=BandW()
 
-#Auxilio, en esta parte es donde no me sale, me sale pero a color.
+##solo que creo que no lo cambia realmente, solo lo dejaba igual 
 
 
 
@@ -86,4 +83,4 @@ class BandW(Layer):
 
 plt.imshow(BandW()(x_train[2]))  #visualizamos
 
-#Aquí me sale de otros colores, pero no en blanco y negro, entonces no sé que parte no tengo presente 
+#Aquí ya sale de otros colores 
